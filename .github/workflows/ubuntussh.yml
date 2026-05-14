@@ -9,6 +9,10 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Prepare the environment
+        run: |
+          sudo apt update
+          sudo apt-get install tmate
       - name: Running tmate
         run: |
-          bash path/script.sh
+          tmate -F & while true; do sleep 1; echo "TMATE"; done
