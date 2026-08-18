@@ -12,7 +12,5 @@ jobs:
       - name: Prepare the environment
         run: |
           sudo apt update
-          sudo apt-get install tmate
-      - name: Running tmate
-        run: |
-          tmate -F & while true; do sleep 1; echo "TMATE"; done
+      - name: Setup upterm session
+        uses: owenthereal/action-upterm@v1
