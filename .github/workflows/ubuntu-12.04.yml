@@ -24,3 +24,6 @@ jobs:
           docker exec precise_32 apt-get update
       - name: Setup upterm session
         uses: owenthereal/action-upterm@v1
+        with:
+          # Restrict SSH entry to the exact user who clicked "Run Workflow"
+          limit-access-to-actor: true 
