@@ -1,0 +1,29 @@
+name: Ubuntu 16.04 SSH
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v7
+      - name: Start 16.04 Container in Background
+        run: |
+          docker run -d --name xenial_64 --privileged \
+            -v ${{ github.workspace }}:/workspace \
+            -w /workspace \
+            ubuntu:16.04 tail -f /dev/null
+      - name: Prepare Container Repositories
+        run: |
+          docker exec xenial_64 sed -i 's/://ubuntu.com' /etc/apt/sources.list
+          docker exec xenial_64 sed -i 's/://ubuntu.com' /etc/apt/sources.list
+          docker exec xenial_64 apt-get update
+      - name: Setup upterm session
+        uses: owenthereal/action-upterm@v1
+        with:
+          # Restricts SSH entry exclusively to your personal GitHub profile
+          limit-access-to-actor: true 
