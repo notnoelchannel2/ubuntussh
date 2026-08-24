@@ -19,8 +19,11 @@ jobs:
             ubuntu:16.04 tail -f /dev/null
       - name: Prepare Container Repositories
         run: |
-          docker exec xenial_64 sed -i 's/://ubuntu.com' /etc/apt/sources.list
-          docker exec xenial_64 sed -i 's/://ubuntu.com' /etc/apt/sources.list
+          docker exec -i xenial_64 bash -c "cat << 'EOF' > /etc/apt/sources.list
+          deb http://old-releases.ubuntu.com/ubuntu/ xenial main restricted universe multiverse
+          deb http://old-releases.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse
+          deb http://old-releases.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse
+          EOF"
           docker exec xenial_64 apt-get update
       - name: Setup upterm session
         uses: owenthereal/action-upterm@v1
